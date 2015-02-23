@@ -1,3 +1,4 @@
+
 :- module xlib.
 :- interface.
 
@@ -138,7 +139,7 @@
 
 %------------------------------------------------------------------------------%
 
-:- type xlib.display ---> xlib.display(c_pointer).
+:- pragma foreign_type("C", xlib.display, "Display *").
 
 :- pragma foreign_type("C", xlib.xevent, "XEvent").
 :- pragma foreign_type("C", xlib.window, "Window").
@@ -585,7 +586,8 @@ xlib.draw_string(D::in, Win::in, Gc::in, Loc::in, Msg::in, IOi::di, IOo::uo) :-
         List = MR_list_empty();
         
         if(n_fonts && (fonts!=NULL)){
-            for(int i = 0; i<n_fonts; i++){
+            int i = 0;
+            for(; i<n_fonts; i++){
                 MR_String font;
                 MR_make_aligned_string_copy_saved_hp(font, fonts[i], NULL);
                 List = MR_list_cons((MR_Word)font, List);
